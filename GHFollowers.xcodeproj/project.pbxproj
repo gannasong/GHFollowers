@@ -89,6 +89,8 @@
 			dependencies = (
 			);
 			name = GHFollowers;
+			packageProductDependencies = (
+			);
 			productName = GHFollowers;
 			productReference = 497B227323D0C29F0035D76D /* GHFollowers.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +119,8 @@
 				Base,
 			);
 			mainGroup = 497B226A23D0C29F0035D76D;
+			packageReferences = (
+			);
 			productRefGroup = 497B227423D0C29F0035D76D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -287,6 +291,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2W4XUH8LUQ;
 				INFOPLIST_FILE = GHFollowers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -305,6 +310,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2W4XUH8LUQ;
 				INFOPLIST_FILE = GHFollowers/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
