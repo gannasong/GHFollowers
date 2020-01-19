@@ -72,23 +72,55 @@
 		497B227523D0C29F0035D76D /* GHFollowers */ = {
 			isa = PBXGroup;
 			children = (
-				497B227623D0C29F0035D76D /* AppDelegate.swift */,
-				497B227823D0C29F0035D76D /* SceneDelegate.swift */,
+				497B327023D438120035D76D /* Extensions */,
+				497B326E23D437A00035D76D /* Screens */,
+				497B326F23D437D10035D76D /* Custom Views */,
+				497B327123D438900035D76D /* Support */,
 				497B227F23D0C2A10035D76D /* Assets.xcassets */,
 				497B228123D0C2A10035D76D /* LaunchScreen.storyboard */,
 				497B228423D0C2A10035D76D /* Info.plist */,
+			);
+			path = GHFollowers;
+			sourceTree = "<group>";
+		};
+		497B326E23D437A00035D76D /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				497B2C4223D2ABD10035D76D /* FollowerListVC.swift */,
 				497B228A23D0CD4E0035D76D /* SearchVC.swift */,
 				497B228C23D0CDAD0035D76D /* FavoritesListVC.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		497B326F23D437D10035D76D /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
 				497B228E23D0D3970035D76D /* GFButton.swift */,
 				497B229023D0D82C0035D76D /* GFTextField.swift */,
-				497B2C4223D2ABD10035D76D /* FollowerListVC.swift */,
-				497B2C4423D2EEB60035D76D /* String+Ext.swift */,
 				497B307A23D367120035D76D /* GFTitleLabel.swift */,
 				497B307C23D368C20035D76D /* GFBodyLabel.swift */,
 				497B307E23D369BB0035D76D /* GFAlertVC.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		497B327023D438120035D76D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				497B2C4423D2EEB60035D76D /* String+Ext.swift */,
 				497B308023D370240035D76D /* UIViewController+Ext.swift */,
 			);
-			path = GHFollowers;
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		497B327123D438900035D76D /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				497B227623D0C29F0035D76D /* AppDelegate.swift */,
+				497B227823D0C29F0035D76D /* SceneDelegate.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
