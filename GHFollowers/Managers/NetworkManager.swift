@@ -6,14 +6,20 @@
 //  Copyright © 2020 SUNG HAO LIN. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
+
   static let shared = NetworkManager()
 
-  let baseURL = "https://api.github.com/users/"
+  private let baseURL = "https://api.github.com/users/"
+  let cache = NSCache<NSString, UIImage>()
+
+  // MARK: - Initialization
 
   private init() {}
+
+  // MARK: - Public Methods
 
   func getFollowers(for username: String, page: Int, completed: @escaping (Result<[Follower], GFError>) -> Void) {
     let endpoint = baseURL + "\(username)/followers?per_page=100&page=\(page)"
