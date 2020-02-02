@@ -15,7 +15,9 @@ class FollowerListVC: UIViewController {
   }
 
   var username: String!
+  var page: Int = 1
   var followers: [Follower] = []
+  var hasMoreFollowers = true
   var collectionView: UICollectionView!
   var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
 
@@ -25,7 +27,7 @@ class FollowerListVC: UIViewController {
     super.viewDidLoad()
     configureViewController()
     configureCollectionView()
-    getFollowers()
+    getFollowers(username: username, page: page)
     configureDataSource()
   }
 
@@ -44,18 +46,35 @@ class FollowerListVC: UIViewController {
   private func configureCollectionView() {
     collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
     view.addSubview(collectionView)
+    collectionView.delegate = self
     collectionView.backgroundColor = .systemBackground
     collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
   }
 
-  private func getFollowers() {
-    NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] (result) in
+  private func getFollowers(username: String, page: Int) {
+    showLoadingView()
+
+    NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] (result) in
+      guard let strongSelf = self else { return }
+
+      strongSelf.dismissLoadingView()
       switch result {
         case .success(let followers):
-          self?.followers = followers
-          self?.updateData()
+          if followers.count < 100 {
+            strongSelf.hasMoreFollowers = false
+          }
+          strongSelf.followers.append(contentsOf: followers)
+
+          if strongSelf.followers.isEmpty {
+            let message = "This user doesn't have any followers. Go follow them 😏."
+            DispatchQueue.main.async {
+              strongSelf.showEmptyStateView(with: message, in: strongSelf.view)
+            }
+          } else {
+            strongSelf.updateData()
+          }
         case .failure(let error):
-          self?.presentGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTitle: "Ok")
+          strongSelf.presentGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTitle: "Ok")
       }
     }
   }
@@ -76,6 +95,26 @@ class FollowerListVC: UIViewController {
     snapshot.appendItems(followers)
     DispatchQueue.main.async {
       self.dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+    }
+  }
+}
+
+extension FollowerListVC: UICollectionViewDelegate {
+
+  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    let offsetY = scrollView.contentOffset.y
+    let contentHeight = scrollView.contentSize.height
+    let height = scrollView.frame.size.height
+
+    print("offsetY: \(offsetY)") // 左上角的位置
+    print("contentHeight: \(contentHeight)") // 整個 scrollview 的總高度
+    print("height: \(height)") // 裝置螢幕高度
+
+    // 這邊表示畫面左上角的位置已經超過一個螢幕的高度
+    if offsetY > contentHeight - height {
+      guard hasMoreFollowers else { return }
+      page += 1
+      getFollowers(username: username, page: page)
     }
   }
 }
