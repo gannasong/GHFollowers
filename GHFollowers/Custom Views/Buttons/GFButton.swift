@@ -28,6 +28,13 @@ class GFButton: UIButton {
     fatalError("init(coder:) has not been implemented")
   }
 
+  // MARK: - Public Methods
+
+  func set(backgroundColor: UIColor, title: String) {
+    self.backgroundColor = backgroundColor
+    setTitle(title, for: .normal)
+  }
+
   // MARK: - Private Methods
 
   private func configure() {
