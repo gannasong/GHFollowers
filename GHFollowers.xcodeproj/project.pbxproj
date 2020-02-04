@@ -38,6 +38,8 @@
 		4999FCA623E8772C008539EE /* GFRepoItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999FCA523E8772C008539EE /* GFRepoItemVC.swift */; };
 		4999FCA823E8792B008539EE /* GFFollowerItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999FCA723E8792B008539EE /* GFFollowerItemVC.swift */; };
 		4999FCAB23E88214008539EE /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4999FCAA23E88214008539EE /* Date+Ext.swift */; };
+		49BEF87E23E9B5D1000826D7 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BEF87D23E9B5D1000826D7 /* PersistenceManager.swift */; };
+		49BEF88023E9C713000826D7 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BEF87F23E9C713000826D7 /* FavoriteCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +76,8 @@
 		4999FCA523E8772C008539EE /* GFRepoItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFRepoItemVC.swift; sourceTree = "<group>"; };
 		4999FCA723E8792B008539EE /* GFFollowerItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFFollowerItemVC.swift; sourceTree = "<group>"; };
 		4999FCAA23E88214008539EE /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		49BEF87D23E9B5D1000826D7 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		49BEF87F23E9C713000826D7 /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				497B37C623D5F7000035D76D /* NetworkManager.swift */,
+				49BEF87D23E9B5D1000826D7 /* PersistenceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				4990E54A23E332F500AC60C5 /* FollowerCell.swift */,
+				49BEF87F23E9C713000826D7 /* FavoriteCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -350,6 +356,7 @@
 				4990E54D23E334D300AC60C5 /* GFAvatarImageView.swift in Sources */,
 				4999FCA623E8772C008539EE /* GFRepoItemVC.swift in Sources */,
 				497B307F23D369BB0035D76D /* GFAlertVC.swift in Sources */,
+				49BEF88023E9C713000826D7 /* FavoriteCell.swift in Sources */,
 				493EE2B823E71427003400EE /* UserInfoVC.swift in Sources */,
 				497B327623D4418F0035D76D /* Follower.swift in Sources */,
 				497B227723D0C29F0035D76D /* AppDelegate.swift in Sources */,
@@ -357,6 +364,7 @@
 				497B2C4523D2EEB60035D76D /* String+Ext.swift in Sources */,
 				4999FCA423E8711A008539EE /* GFItemInfoVC.swift in Sources */,
 				4999FCA823E8792B008539EE /* GFFollowerItemVC.swift in Sources */,
+				49BEF87E23E9B5D1000826D7 /* PersistenceManager.swift in Sources */,
 				497B3B7823D7F0000035D76D /* GFError.swift in Sources */,
 				4990E54F23E349F800AC60C5 /* UIHelper.swift in Sources */,
 				4999FCAB23E88214008539EE /* Date+Ext.swift in Sources */,

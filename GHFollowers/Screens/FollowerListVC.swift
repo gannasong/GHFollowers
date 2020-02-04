@@ -48,6 +48,9 @@ class FollowerListVC: UIViewController {
   private func configureViewController() {
     view.backgroundColor = .systemBackground
     navigationController?.navigationBar.prefersLargeTitles = true
+
+    let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+    navigationItem.rightBarButtonItem = addButton
   }
 
   private func configureCollectionView() {
@@ -111,6 +114,36 @@ class FollowerListVC: UIViewController {
     snapshot.appendItems(followers)
     DispatchQueue.main.async {
       self.dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+    }
+  }
+
+  @objc private func addButtonTapped() {
+    showLoadingView()
+
+    NetworkManager.shared.getUserInfo(for: username) { [weak self] (result) in
+      guard let strongSelf = self else { return }
+      strongSelf.dismissLoadingView()
+
+      switch result {
+        case .success(let user):
+          let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+          PersistenceManager.updateWith(favorite: favorite, actionType: .add) { (error) in
+            guard let error = error else {
+              strongSelf.presentGFAlertOnMainThread(title: "Success!",
+                                                    message: "You have successfully favorited this user 🎉",
+                                                    buttonTitle: "Hooray!")
+              return
+            }
+
+            strongSelf.presentGFAlertOnMainThread(title: "Something went wrong",
+                                                  message: error.rawValue,
+                                                  buttonTitle: "Ok")
+          }
+        case .failure(let error):
+          strongSelf.presentGFAlertOnMainThread(title: "Something went wrong",
+                                                message: error.rawValue,
+                                                buttonTitle: "Ok")
+      }
     }
   }
 }
