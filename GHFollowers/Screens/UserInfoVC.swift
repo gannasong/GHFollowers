@@ -9,8 +9,7 @@
 import UIKit
 
 protocol UserInfoVCDelegate: class {
-  func didTapGitHubProfile(for user: User)
-  func didTapGetFollowers(for user: User)
+  func didRequestFollowers(for username: String)
 }
 
 class UserInfoVC: UIViewController {
@@ -21,7 +20,7 @@ class UserInfoVC: UIViewController {
   let dateLabel = GFBodyLabel(textAlignment: .center)
   var itemViews: [UIView] = []
   var username: String!
-  weak var delegate: FollowerListVCDelegate!
+  weak var delegate: UserInfoVCDelegate!
   
   // MARK: - UIViewController
 
@@ -56,14 +55,9 @@ class UserInfoVC: UIViewController {
   }
 
   private func configureUIElements(with user: User) {
-    let repoItemVC = GFRepoItemVC(user: user)
-    repoItemVC.delegate = self
-    let followerItemVC = GFFollowerItemVC(user: user)
-    followerItemVC.delegate = self
-
     add(childVC: GFUserInfoHeaderVC(user: user), to: headView)
-    add(childVC: repoItemVC, to: itemViewOne)
-    add(childVC: followerItemVC, to: itemViewTwo)
+    add(childVC: GFRepoItemVC(user: user, delegate: self), to: itemViewOne)
+    add(childVC: GFFollowerItemVC(user: user, delegate: self), to: itemViewTwo)
     dateLabel.text = "GitHub Since \(user.createdAt.convertToMonthYearFormat())"
   }
 
@@ -89,7 +83,7 @@ class UserInfoVC: UIViewController {
 
     NSLayoutConstraint.activate([
       headView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      headView.heightAnchor.constraint(equalToConstant: 180),
+      headView.heightAnchor.constraint(equalToConstant: 210),
 
       itemViewOne.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: padding),
       itemViewOne.heightAnchor.constraint(equalToConstant: itemHeight),
@@ -98,7 +92,7 @@ class UserInfoVC: UIViewController {
       itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight),
 
       dateLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
-      dateLabel.heightAnchor.constraint(equalToConstant: 18)
+      dateLabel.heightAnchor.constraint(equalToConstant: 50)
     ])
   }
 
@@ -110,7 +104,7 @@ class UserInfoVC: UIViewController {
   }
 }
 
-extension UserInfoVC: UserInfoVCDelegate {
+extension UserInfoVC: GFRepoItemVCDelegate {
   func didTapGitHubProfile(for user: User) {
     guard let url = URL(string: user.htmlUrl) else {
       presentGFAlertOnMainThread(title: "Invalid URL",
@@ -121,7 +115,9 @@ extension UserInfoVC: UserInfoVCDelegate {
 
     presentSafariVC(with: url)
   }
+}
 
+extension UserInfoVC: GFFollowerItemVCDelegate {
   func didTapGetFollowers(for user: User) {
     guard user.followers != 0 else {
       presentGFAlertOnMainThread(title: "No followers",
@@ -129,6 +125,7 @@ extension UserInfoVC: UserInfoVCDelegate {
                                  buttonTitle: "So sad")
       return
     }
+
     delegate.didRequestFollowers(for: user.login)
     dismissVC()
   }
