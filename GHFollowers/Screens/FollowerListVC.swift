@@ -87,23 +87,28 @@ class FollowerListVC: GFDataLoadingVC {
       strongSelf.dismissLoadingView()
       switch result {
         case .success(let followers):
-          if followers.count < 100 {
-            strongSelf.hasMoreFollowers = false
-          }
-          strongSelf.followers.append(contentsOf: followers)
-
-          if strongSelf.followers.isEmpty {
-            let message = "This user doesn't have any followers. Go follow them 😏."
-            DispatchQueue.main.async {
-              strongSelf.showEmptyStateView(with: message, in: strongSelf.view)
-            }
-          } else {
-            strongSelf.updateData(on: strongSelf.followers)
-          }
+          strongSelf.updateUI(with: followers)
         case .failure(let error):
           strongSelf.presentGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTitle: "Ok")
       }
     }
+  }
+
+  private func updateUI(with followers: [Follower]) {
+    if followers.count < 100 {
+      hasMoreFollowers = false
+    }
+    self.followers.append(contentsOf: followers)
+
+    if followers.isEmpty {
+      let message = "This user doesn't have any followers. Go follow them 😏."
+      DispatchQueue.main.async {
+        self.showEmptyStateView(with: message, in: self.view)
+      }
+      return
+    }
+
+    updateData(on: followers)
   }
 
   private func configureDataSource() {
@@ -127,26 +132,14 @@ class FollowerListVC: GFDataLoadingVC {
 
   @objc private func addButtonTapped() {
     showLoadingView()
-    isLoadingMoreFollowers == true
+    isLoadingMoreFollowers = true
     NetworkManager.shared.getUserInfo(for: username) { [weak self] (result) in
       guard let strongSelf = self else { return }
       strongSelf.dismissLoadingView()
 
       switch result {
         case .success(let user):
-          let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-          PersistenceManager.updateWith(favorite: favorite, actionType: .add) { (error) in
-            guard let error = error else {
-              strongSelf.presentGFAlertOnMainThread(title: "Success!",
-                                                    message: "You have successfully favorited this user 🎉",
-                                                    buttonTitle: "Hooray!")
-              return
-            }
-
-            strongSelf.presentGFAlertOnMainThread(title: "Something went wrong",
-                                                  message: error.rawValue,
-                                                  buttonTitle: "Ok")
-          }
+          strongSelf.addUserFavorites(user: user)
         case .failure(let error):
           strongSelf.presentGFAlertOnMainThread(title: "Something went wrong",
                                                 message: error.rawValue,
@@ -154,6 +147,22 @@ class FollowerListVC: GFDataLoadingVC {
       }
       strongSelf.isLoadingMoreFollowers = false
     }
+  }
+
+  private func addUserFavorites(user: User) {
+    let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+     PersistenceManager.updateWith(favorite: favorite, actionType: .add) { (error) in
+       guard let error = error else {
+        self.presentGFAlertOnMainThread(title: "Success!",
+                                        message: "You have successfully favorited this user 🎉",
+                                        buttonTitle: "Hooray!")
+         return
+       }
+
+       self.presentGFAlertOnMainThread(title: "Something went wrong",
+                                       message: error.rawValue,
+                                       buttonTitle: "Ok")
+     }
   }
 }
 

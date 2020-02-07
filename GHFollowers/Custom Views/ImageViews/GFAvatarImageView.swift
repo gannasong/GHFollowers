@@ -24,6 +24,17 @@ class GFAvatarImageView: UIImageView {
     fatalError("init(coder:) has not been implemented")
   }
 
+  // MARK: - Public Methods
+
+  func downloadImage(fromURL url: String) {
+    NetworkManager.shared.downloadImage(from: url) { [weak self] (image) in
+      guard let strongSelf = self else { return }
+      DispatchQueue.main.async {
+        strongSelf.image = image
+      }
+    }
+  }
+
   // MARK: - Private Methods
 
   private func configure() {

@@ -27,6 +27,8 @@ class GFRepoItemVC: GFItemInfoVC {
     fatalError("init(coder:) has not been implemented")
   }
 
+  // MARK: - UIViewController
+
   override func viewDidLoad() {
     super.viewDidLoad()
     configureItems()

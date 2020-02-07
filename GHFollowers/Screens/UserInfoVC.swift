@@ -14,6 +14,9 @@ protocol UserInfoVCDelegate: class {
 
 class UserInfoVC: UIViewController {
 
+  let scrollView = UIScrollView()
+  let contentView = UIView()
+
   let headView = UIView()
   let itemViewOne = UIView()
   let itemViewTwo = UIView()
@@ -27,6 +30,7 @@ class UserInfoVC: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureViewController()
+    configureScrollView()
     layoutUI()
     getUserInfo()
   }
@@ -37,6 +41,18 @@ class UserInfoVC: UIViewController {
     view.backgroundColor = .systemBackground
      let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
      navigationItem.rightBarButtonItem = doneButton
+  }
+
+  private func configureScrollView() {
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentView)
+    scrollView.pinToEdges(of: view)
+    contentView.pinToEdges(of: scrollView)
+
+    NSLayoutConstraint.activate([
+      contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+      contentView.heightAnchor.constraint(equalToConstant: 600)
+    ])
   }
 
   private func getUserInfo() {
@@ -72,17 +88,17 @@ class UserInfoVC: UIViewController {
     itemViews = [headView, itemViewOne, itemViewTwo, dateLabel]
 
     for itemView in itemViews {
-      view.addSubview(itemView)
+      contentView.addSubview(itemView)
       itemView.translatesAutoresizingMaskIntoConstraints = false
 
       NSLayoutConstraint.activate([
-        itemView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-        itemView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
+        itemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+        itemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
       ])
     }
 
     NSLayoutConstraint.activate([
-      headView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      headView.topAnchor.constraint(equalTo: contentView.topAnchor),
       headView.heightAnchor.constraint(equalToConstant: 210),
 
       itemViewOne.topAnchor.constraint(equalTo: headView.bottomAnchor, constant: padding),

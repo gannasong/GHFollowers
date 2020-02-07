@@ -42,13 +42,12 @@ class GFEmptyStateView: UIView {
     logoImageVeiw.image = Images.emptyStateLogo
 
     let logoBottomConstant: CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? 80 : 40
-    let logoImageViewBottomConstraint = logoImageVeiw.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoBottomConstant)
-    logoImageViewBottomConstraint.isActive = true
 
     NSLayoutConstraint.activate([
       logoImageVeiw.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor, multiplier: 1.3),
       logoImageVeiw.heightAnchor.constraint(lessThanOrEqualTo: self.widthAnchor, multiplier: 1.3),
-      logoImageVeiw.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 170)
+      logoImageVeiw.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 170),
+      logoImageVeiw.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoBottomConstant)
     ])
   }
 
@@ -57,10 +56,9 @@ class GFEmptyStateView: UIView {
     messageLabel.textColor = .secondaryLabel
 
     let labelCenterYConstant: CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? -80 : -150
-    let messageLabelCenterYConstraint = messageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: labelCenterYConstant)
-    messageLabelCenterYConstraint.isActive = true
 
     NSLayoutConstraint.activate([
+      messageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: labelCenterYConstant),
       messageLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 40),
       messageLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
       messageLabel.heightAnchor.constraint(equalToConstant: 200)
